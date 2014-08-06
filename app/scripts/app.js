@@ -31,7 +31,8 @@
       'applicationUniqueId': '84d1cd31ffe3fae8607dc7dc9dd1962d',
       'applicationResources': {
           'distGroupMgr': 'https://dev.it.usf.edu/~james/PHP_distGroupMgr/distgroupmgr.php',
-          'testService': 'http://192.168.1.147:8080/RuleChains/service/:handler/'
+          'testService': 'http://192.168.1.147:8080/RuleChains/service/:handler/',
+          'ruleChainsHandlers': 'http://james.it.usf.edu:8080/RuleChains/service/:handler/'
       }
     })
     .config(['$routeProvider','$httpProvider','voterAppConstant','GooglePlusProvider','$provide', function ($routeProvider,$httpProvider,voterAppConstant,GooglePlusProvider,$provide) {
@@ -90,18 +91,21 @@
               }
             });
             return appkey;
+          },
+          getStorage: function() {
+            return $rootScope.voterContacts[voterAppConstant.applicationUniqueId];
           }
       
         };
       }]);
     }])
-    .run(['voterAppConstant','$rootScope','storage','voterContactsInit','ruleChains',function(voterAppConstant,$rootScope,storage,voterContactsInit,ruleChains) {      
+    .run(['voterAppConstant','$rootScope','$window','storage','voterContactsInit','ruleChains',function(voterAppConstant,$rootScope,$window,storage,voterContactsInit,ruleChains) {      
       voterContactsInit.initializeStorage();
       ruleChains.testService().then(function(data){
-        alert(JSON.stringify(data));
+        $window.alert(JSON.stringify(data));
 //          $scope.groups = data.groups;
       },function(errorMessage) {
-        alert(JSON.stringify(errorMessage));
+        $window.alert(JSON.stringify(errorMessage));
 //          $scope.error=errorMessage;
       });
       
