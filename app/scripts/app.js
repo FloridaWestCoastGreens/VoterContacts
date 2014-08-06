@@ -30,10 +30,14 @@
       },
       'applicationUniqueId': '84d1cd31ffe3fae8607dc7dc9dd1962d',
       'applicationResources': {
-          'distGroupMgr': 'https://dev.it.usf.edu/~james/PHP_distGroupMgr/distgroupmgr.php'
+          'distGroupMgr': 'https://dev.it.usf.edu/~james/PHP_distGroupMgr/distgroupmgr.php',
+          'testService': 'http://192.168.1.147:8080/RuleChains/service/:handler/'
       }
     })
-    .config(['$routeProvider','voterAppConstant','GooglePlusProvider','$provide', function ($routeProvider,voterAppConstant,GooglePlusProvider,$provide) {
+    .config(['$routeProvider','$httpProvider','voterAppConstant','GooglePlusProvider','$provide', function ($routeProvider,$httpProvider,voterAppConstant,GooglePlusProvider,$provide) {
+      $httpProvider.defaults.useXDomain = true;
+      $httpProvider.defaults.withCredentials = true;
+      delete $httpProvider.defaults.headers.common['X-Requested-With'];
       $routeProvider
         .when('/', {
           templateUrl: 'views/main.html',
@@ -64,13 +68,42 @@
                 };
               }
             });        
+          },
+          /**
+          * Retrieves a URL associated with a provided Application resource 'key'
+          */
+          getResourceUrl: function(appKey) {
+            return voterAppConstant.applicationResources[appKey];
+          },
+          /**
+          * Retrieves the Application resource 'key' from the UsfCAStokenAuthConstant using the URL as the matching value
+          */
+          getApplicationResourceKey: function(url) {
+            var keepGoing = true;
+            var appkey = '';
+            angular.forEach(voterAppConstant.applicationResources,function(value, key) {
+              if (keepGoing) {
+                if (url === value) {
+                  appkey = key;
+                  keepGoing = false;
+                }
+              }
+            });
+            return appkey;
           }
+      
         };
       }]);
     }])
-    .run(['voterAppConstant','$rootScope','storage','voterContactsInit',function(voterAppConstant,$rootScope,storage,voterContactsInit) {      
+    .run(['voterAppConstant','$rootScope','storage','voterContactsInit','ruleChains',function(voterAppConstant,$rootScope,storage,voterContactsInit,ruleChains) {      
       voterContactsInit.initializeStorage();
-      
+      ruleChains.testService().then(function(data){
+        alert(JSON.stringify(data));
+//          $scope.groups = data.groups;
+      },function(errorMessage) {
+        alert(JSON.stringify(errorMessage));
+//          $scope.error=errorMessage;
+      });
       
       
     }]);
