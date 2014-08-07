@@ -9,7 +9,7 @@
    * Factory in the voterContactsApp.
    */
   angular.module('voterContactsApp')
-    .factory('ruleChains',['voterContactsInit','$log','$resource', function (voterContactsInit,$log,$resource) {
+    .factory('ruleChains',['voterContactsInit','$log','$resource','$http', function (voterContactsInit,$log,$resource,$http) {
       // Service logic
       // ...
       var ruleChainsResource = {
@@ -18,9 +18,12 @@
             method: 'GET', params: {handler: 'testService'},responseType: 'json' 
           },    
           'testService': {
-            method: 'GET', params: {},responseType: 'json',url: voterContactsInit.getResourceUrl('testService2')
+            method: 'GET', params: {root: 'ruleSet'},responseType: 'json',url: voterContactsInit.getResourceUrl('testService'), stripTrailingSlashes: false
           }    
-        }),
+        },{stripTrailingSlashes: false}),
+        'internal2': {
+          listRuleSets: function() { return $http({method: 'GET', params: {}, responseType: 'json', url: voterContactsInit.getResourceUrl('listRuleSets')}); }
+        },
         'handlers': $resource(voterContactsInit.getResourceUrl('ruleChainsHandlers'),{},{
           'testService': {
             method: 'GET', params: {handler: 'testService'},responseType: 'json', headers: { 'Content-Type':'application/json' }
@@ -34,12 +37,18 @@
               return data;
             }
           }
-        }) 
+        },{stripTrailingSlashes: false}) 
       };
       // Public API here
       return {
         testService: function () {
           return ruleChainsResource.internal.testService().$promise;
+        },
+        listRuleSets: function() {
+          return ruleChainsResource.internal2.listRuleSets();
+        },
+        getFLCounties2: function() {
+          return ruleChainsResource.handlers.getFLCounties().$promise;
         },
         getFLCounties: function(callback) {
           return ruleChainsResource.handlers.getFLCounties({},callback);

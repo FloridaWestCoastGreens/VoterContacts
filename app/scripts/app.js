@@ -31,10 +31,12 @@
       'applicationUniqueId': '84d1cd31ffe3fae8607dc7dc9dd1962d',
       'applicationResources': {
           'distGroupMgr': 'https://dev.it.usf.edu/~james/PHP_distGroupMgr/distgroupmgr.php',
-          'testService': 'http://192.168.1.147:8080/RuleChains/service/:handler/',
-          'testService2': 'http://192.168.1.147:8080/RuleChains/ruleSet//',
-          'ruleChainsHandlers': 'http://192.168.1.147:8080/RuleChains/service/:handler/',
-          'ruleChainsHandlers2': 'http://james.it.usf.edu:8080/RuleChains/service/:handler/'
+          'listRuleSets': 'http://james.it.usf.edu:8080/RuleChains/ruleSet/',
+          'testService3': 'http://192.168.1.147:8080/RuleChains/service/:handler',
+          'testService2': 'http://192.168.1.147:8080/RuleChains/ruleSet/',
+          'testService': 'http://james.it.usf.edu:8080/RuleChains/:root/',
+          'ruleChainsHandlers2': 'http://192.168.1.147:8080/RuleChains/service/:handler',
+          'ruleChainsHandlers': 'http://james.it.usf.edu:8080/RuleChains/service/:handler'
       }
     })
     .config(['$routeProvider','$httpProvider','voterAppConstant','GooglePlusProvider','$provide', function ($routeProvider,$httpProvider,voterAppConstant,GooglePlusProvider,$provide) {
@@ -104,14 +106,20 @@
     }])
     .run(['voterAppConstant','$rootScope','$window','storage','voterContactsInit','ruleChains',function(voterAppConstant,$rootScope,$window,storage,voterContactsInit,ruleChains) {      
       voterContactsInit.initializeStorage();
-      ruleChains.testService().then(function(data){
+//      ruleChains.testService().then(function(data){
+//        $window.alert(JSON.stringify(data));
+////          $scope.groups = data.groups;
+//      },function(errorMessage) {
+//        $window.alert(JSON.stringify(errorMessage));
+////          $scope.error=errorMessage;
+//      });
+      ruleChains.listRuleSets().then(function(data){
         $window.alert(JSON.stringify(data));
 //          $scope.groups = data.groups;
       },function(errorMessage) {
         $window.alert(JSON.stringify(errorMessage));
 //          $scope.error=errorMessage;
       });
-      
       
     }]);
 })(window, window.angular);

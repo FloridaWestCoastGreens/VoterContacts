@@ -10,9 +10,13 @@
    */
   angular.module('voterContactsApp')
     .controller('GetflcountiesCtrl',['$scope','$window','voterContactsInit', 'ruleChains', function ($scope,$window,voterContactsInit,ruleChains) {
-      ruleChains.getFLCounties(function(data) {
+      //ruleChains.getFLCounties(function(data) {
+      //  $window.alert(JSON.stringify(data));
+      //  voterContactsInit.getStorage().counties = data;
+      //});
+      ruleChains.getFLCounties2().then(function(data) {
         $window.alert(JSON.stringify(data));
-        voterContactsInit.getStorage().counties = data;
+        voterContactsInit.getStorage().counties = data.counties;
       });
       $scope.awesomeThings = [
         'HTML5 Boilerplate',
