@@ -35,8 +35,8 @@
           'testService3': 'http://192.168.1.147:8080/RuleChains/service/:handler',
           'testService2': 'http://192.168.1.147:8080/RuleChains/ruleSet/',
           'testService': 'http://james.it.usf.edu:8080/RuleChains/:root/',
-          'ruleChainsHandlers2': 'http://192.168.1.147:8080/RuleChains/service/:handler',
-          'ruleChainsHandlers': 'http://james.it.usf.edu:8080/RuleChains/service/:handler'
+          'ruleChainsHandlersHome': 'http://192.168.1.147:8080/RuleChains/service/:handler',
+          'ruleChainsHandlersWork': 'http://james.it.usf.edu:8080/RuleChains/service/:handler'
       }
     })
     .config(['$routeProvider','$httpProvider','voterAppConstant','GooglePlusProvider','$provide', function ($routeProvider,$httpProvider,voterAppConstant,GooglePlusProvider,$provide) {
@@ -113,13 +113,13 @@
 //        $window.alert(JSON.stringify(errorMessage));
 ////          $scope.error=errorMessage;
 //      });
-      ruleChains.listRuleSets().then(function(data){
-        $window.alert(JSON.stringify(data));
-//          $scope.groups = data.groups;
-      },function(errorMessage) {
-        $window.alert(JSON.stringify(errorMessage));
-//          $scope.error=errorMessage;
-      });
+//      ruleChains.listRuleSets().then(function(data){
+//        $window.alert(JSON.stringify(data));
+////          $scope.groups = data.groups;
+//      },function(errorMessage) {
+//        $window.alert(JSON.stringify(errorMessage));
+////          $scope.error=errorMessage;
+//      });
       
     }]);
 })(window, window.angular);

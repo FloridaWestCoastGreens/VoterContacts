@@ -13,7 +13,7 @@
       // Service logic
       // ...
       var ruleChainsResource = {
-        'internal': $resource(voterContactsInit.getResourceUrl('ruleChainsHandlers'),{},{
+        'internal': $resource(voterContactsInit.getResourceUrl('ruleChainsHandlersHome'),{},{
           'testService2': {
             method: 'GET', params: {handler: 'testService'},responseType: 'json' 
           },    
@@ -24,7 +24,7 @@
         'internal2': {
           listRuleSets: function() { return $http({method: 'GET', params: {}, responseType: 'json', url: voterContactsInit.getResourceUrl('listRuleSets')}); }
         },
-        'handlers': $resource(voterContactsInit.getResourceUrl('ruleChainsHandlers'),{},{
+        'handlers': $resource(voterContactsInit.getResourceUrl('ruleChainsHandlersHome'),{},{
           'testService': {
             method: 'GET', params: {handler: 'testService'},responseType: 'json', headers: { 'Content-Type':'application/json' }
           },
@@ -47,10 +47,10 @@
         listRuleSets: function() {
           return ruleChainsResource.internal2.listRuleSets();
         },
-        getFLCounties2: function() {
+        getFLCounties: function() {
           return ruleChainsResource.handlers.getFLCounties().$promise;
         },
-        getFLCounties: function(callback) {
+        getFLCounties2b: function(callback) {
           return ruleChainsResource.handlers.getFLCounties({},callback);
         }
       };
